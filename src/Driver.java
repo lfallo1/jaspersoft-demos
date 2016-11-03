@@ -16,7 +16,9 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class Driver {
 	
 	/**
-	 * Jaspersoft Studio Download
+	 * Install the Jaspersoft Studio Eclipse plugin
+	 * 
+	 * Alternatively, could install Jaspersoft Studio as a standalone application from
 	 * http://community.jaspersoft.com/project/jaspersoft-studio
 	 * @param args
 	 * @throws JRException
@@ -32,8 +34,10 @@ public class Driver {
 		users.add(new User(1,"lance","lance@gmail.com"));
 		users.add(new User(2,"harry","harry@gmail.com"));
 		
+		String reportName = "secondReport";
+		
 		//compile jrxml
-		JasperReport report = JasperCompileManager.compileReport("firstReport.jrxml");
+		JasperReport report = JasperCompileManager.compileReport(reportName + ".jrxml");
 		
 		//create datasource (java bean list)
 		JRDataSource jrDataSource = new JRBeanCollectionDataSource(users);
@@ -42,7 +46,7 @@ public class Driver {
 		JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, jrDataSource);
 		
 		//export the report to pdf
-		JasperExportManager.exportReportToPdfFile(jasperPrint, "JasperReport.pdf");
+		JasperExportManager.exportReportToPdfFile(jasperPrint, reportName + ".pdf");
 	}
 
 }
