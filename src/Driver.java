@@ -15,6 +15,9 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 public class Driver {
 	
+	private static final String REPORTS_FOLDER = "reports/";
+	private static final String OUTPUT_FOLDER = "C:\\Users\\lfallon\\Desktop\\";
+	
 	/**
 	 * Install the Jaspersoft Studio Eclipse plugin
 	 * 
@@ -27,6 +30,15 @@ public class Driver {
 	
 	public static void main(String[] args) throws JRException, DRException {
 		
+//		JRDataSource jrDataSource = new JRBeanCollectionDataSource(list);
+//		String jasperPrint = JasperFillManager.fillReportToFile(jasperMasterReportFile, parameters, jrDataSource);
+//		StringBuilder filePath = new StringBuilder(appConfig.getReportFileSavePath());
+//		if (PDF.equalsIgnoreCase(reportType)) {
+//			fileName.append(DOT).append(PDF);
+//			JasperExportManager.exportReportToPdfFile(jasperPrint,
+//					filePath.toString() + fileName.toString());
+//			return fileName.toString();
+		
 		//create a dummy list for the datasource, and add one dummy parameter
 		List<User> users = new ArrayList<>();
 		Map<String,Object> parameters = new HashMap<>();
@@ -34,19 +46,27 @@ public class Driver {
 		users.add(new User(1,"lance","lance@gmail.com"));
 		users.add(new User(2,"harry","harry@gmail.com"));
 		
-		String reportName = "secondReport";
-		
-		//compile jrxml
-		JasperReport report = JasperCompileManager.compileReport(reportName + ".jrxml");
-		
-		//create datasource (java bean list)
+		//creates a pdf report. unlike below, this saves the jasper print obj to memory. the in-memory object is used during the actual export step.
+		String reportName = "secondReport";		
+		JasperReport report = JasperCompileManager.compileReport(REPORTS_FOLDER + reportName + ".jrxml");
 		JRDataSource jrDataSource = new JRBeanCollectionDataSource(users);
-		
-		//fill the compiled report with parameters and datasource
 		JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, jrDataSource);
+		JasperExportManager.exportReportToPdfFile(jasperPrint, OUTPUT_FOLDER + reportName + ".pdf");
 		
-		//export the report to pdf
-		JasperExportManager.exportReportToPdfFile(jasperPrint, reportName + ".pdf");
+		//create a report and export to pdf.
+		//this method saves the jasper print obj to disk, instead of in-memory.
+		//like above the exported file itself is saved to disk.
+		List<Department> dpts = new ArrayList<>();
+		dpts.add(new Department(1,"Sales"));
+		dpts.add(new Department(2,"HR"));
+		dpts.add(new Department(3,"Production"));
+		dpts.add(new Department(4,"Development"));
+		dpts.add(new Department(5,"IT"));
+		dpts.add(new Department(6,"Marketing"));
+		JRDataSource jrDataSource2 = new JRBeanCollectionDataSource(dpts);
+		String jasperLocation = REPORTS_FOLDER + "foodmart.jasper";
+		String jasperPrint2 = JasperFillManager.fillReportToFile(jasperLocation, parameters, jrDataSource2);
+		JasperExportManager.exportReportToPdfFile(jasperPrint2, OUTPUT_FOLDER + "departments.pdf");		
 	}
 
 }
