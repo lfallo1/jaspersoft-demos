@@ -37,6 +37,8 @@ public class FileDataSource implements JRDataSource{
 				return file.isDirectory();
 			} else if(jrField.getName().equals("size")){
 				return file.length();
+			} else if(jrField.getName().equals("absolute_path")){
+				return file.getAbsolutePath();
 			}
 		}
 		return null;
