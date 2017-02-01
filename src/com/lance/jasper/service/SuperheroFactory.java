@@ -83,7 +83,7 @@ public class SuperheroFactory {
 		List<Suit> suits = new ArrayList<>();
 		suits.add(suit);
 		suits.add(suit2);
-		return new Superhero(1, "Captain Justice", "Lance Fallon", Gender.MALE, 72.0, 210.0, 25000.0, suits, "Considered the champion of justice, he is the proud, almighty defender of all.");
+		return new Superhero(1, "Miss Justice", "Larae Fox", Gender.FEMALE, 62.0, 130.0, 25000.0, suits, "Considered the champion of justice, she is the proud, almighty defender of all.");
 	}
 	
 }
